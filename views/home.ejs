@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #333;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        .sidebar {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .content {
+            flex: 1;
+        }
+
+        .tweet-container {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tweet {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .tweet img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .tweet-content {
+            flex: 1;
+        }
+
+        .tweet-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .tweet-actions i {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .tweet-actions i:hover {
+            color: #45a049;
+        }
+
+        .tweet-stats {
+            color: #777;
+            font-size: 0.8em;
+        }
+
+        .tweet-stats i {
+            margin-right: 5px;
+        }
+
+        textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .trends {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .trends h2 {
+            margin-bottom: 10px;
+        }
+
+        .trends ul {
+            padding-left: 20px;
+        }
+
+        .trends li {
+            margin-bottom: 5px;
+        }
+
+        footer {
+            background-color: #333;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .message-icon {
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .message-icon:hover {
+            color: #45a049;
+        }
+
+        .user-icon {
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .user-icon:hover {
+            color: #45a049;
+        }
+
+        .home-icon {
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .home-icon:hover {
+            color: #45a049;
+        }
+
+        .home-icon.active {
+            color: #45a049;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-container input[type="text"] {
+            width: 200px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            margin-right: 10px;
+        }
+
+        .search-container button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .search-results-container {
+            max-height: 200px;
+            /* Örnek bir maksimum yükseklik */
+            overflow-y: auto;
+            /* Sonuçlar çok uzunsa kaydırma çubuğu göster */
+            padding: 10px;
+            /* İsteğe bağlı iç kenar boşluğu */
+            border: 1px solid #ddd;
+            /* İsteğe bağlı sınır */
+            border-radius: 5px;
+            /* İsteğe bağlı köşe yuvarlama */
+            width: 21.5%;
+            /* Kutucuğun genişliğini % olarak ayarla */
+            display: none;
+            /* Başlangıçta kutucuğu gizle */
+            background-color: #333;
+            /* Gri tonunda arka plan rengi */
+        }
+
+        /* Kutucuğu görünür hale getir */
+        .search-results-container.active {
+            display: block;
+        }
+
+        /* İsimlerin üstüne gelindiğinde açık tonda renk */
+        .search-result:hover {
+            background-color: #f0f0f0;
+            /* Açık tonda arka plan rengi */
+            cursor: pointer;
+            /* Fare işaretçisini değiştir */
+            color: #000;
+            /* Yazı rengini siyah yap */
+        }
+
+        .settings-menu {
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            background-color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 999;
+        }
+
+        .theme-switch {
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .theme-switch:hover {
+            color: #45a049;
+        }
+
+        .settings-menu.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="user-info">
+            <img src="/images/xy.png" alt="User Avatar">
+            <span>
+                <%= username %>
+            </span>
+        </div>
+        <a href="/home" class="home-icon"><i class="fas fa-home"></i></a>
+        <a href="/messages" class="message-icon"><i class="fas fa-envelope"></i></a>
+        <a href="/user" class="user-icon"><i class="fas fa-user"></i></a>
+        <a href="#" class="settings-icon"><i class="fas fa-cog"></i></a>
+        <div class="settings-menu">
+            <button class="theme-switch">Açık Tema</button>
+        </div>
+
+
+        <form action="/logout" method="POST">
+            <button type="submit">Logout</button>
+        </form>
+    </header>
+    <main>
+        <div class="sidebar">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Ara..." oninput="liveSearch()">
+                <button type="button"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="search-results-container"> <!-- Yeni konteyner -->
+                <div id="searchResults"></div>
+            </div>
+            <div class="trends">
+                <h2>Trendler</h2>
+                <ul>
+                    <li>#Trend1</li>
+                    <li>#Trend2</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="content">
+           <!-- Tweetlerin listeleneceği bölüm -->
+<% tweets.forEach(tweet=> { %>
+    <div class="tweet-container">
+        <div class="tweet">
+            <img src="/images/xy.png" alt="User Avatar">
+            <div class="tweet-content">
+                <% if (tweet.author) { %>
+                    <span>
+                        <%= tweet.author.username %>
+                    </span>
+                <% } %>
+                <p>
+                    <%= tweet.content %>
+                </p>
+            </div>
+            <div class="tweet-actions">
+                <i id="likeIcon_<%= tweet._id %>" class="fas fa-heart like-icon" data-tweet-id="<%= tweet._id %>"></i>
+                <i class="fas fa-comment"></i>
+                <i class="fas fa-share"></i>
+            </div>
+            <div class="tweet-stats">
+                <span class="like-count">0</span> Beğeni
+            </div>
+        </div>
+        <!-- Yorumları göster -->
+        <div class="comments-container">
+            <% tweet.comments.forEach(comment => { %>
+                <div class="comment">
+                    <span><%= comment.author.username %>:</span>
+                    <p><%= comment.content %></p>
+                </div>
+            <% }) %>
+        </div>
+        <!-- Yorum ekleme formu -->
+        <form action="/tweet/<%= tweet._id %>/comment" method="POST" class="comment-form">
+            <textarea name="content" placeholder="Yorum yap..."></textarea>
+            <button type="submit">Yorumla</button>
+        </form>
+    </div>
+<% }) %>
+
+    </main>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        document.addEventListener('click', async function (event) {
+            if (event.target.classList.contains('like-icon')) {
+                const tweetId = event.target.dataset.tweetId;
+
+                try {
+                    const response = await fetch('/tweet/like', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ tweetId })
+                    });
+                    const data = await response.json();
+
+                    // UI'da beğeni sayısını güncelle
+                    const likeCountSpan = document.querySelector(`#likeIcon_${tweetId}`).closest('.tweet-actions').querySelector('.like-count');
+                    likeCountSpan.textContent = data.likeCount;
+
+                    // Düğme rengini yeşile değiştir
+                    event.target.style.color = '#45a049';
+                } catch (error) {
+                    console.error('Beğeni hatası:', error);
+                    // Hata durumunda kullanıcıya bilgi verebilirsiniz.
+                }
+            }
+        });
+
+
+    </script>
+    <script>
+        async function liveSearch() {
+            const searchInput = document.getElementById('searchInput').value.trim(); // Boşlukları temizle
+
+            // Kullanıcı bir metin girmeden önce arama sonuçlarını gösterme
+            if (searchInput === '') {
+                const searchResultsContainer = document.querySelector('.search-results-container');
+                searchResultsContainer.classList.remove('active');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/search?q=${searchInput}`);
+                const searchData = await response.json();
+
+                // searchResults alanını temizle
+                const searchResults = document.getElementById('searchResults');
+                searchResults.innerHTML = '';
+
+                // searchData içinde dönerek sonuçları ekleyin
+                searchData.forEach(result => {
+                    const resultItem = document.createElement('div');
+                    resultItem.classList.add('search-result'); // CSS sınıfını ekle
+                    resultItem.textContent = result;
+                    searchResults.appendChild(resultItem);
+                });
+
+                // Kutucuğu görünür hale getir
+                const searchResultsContainer = document.querySelector('.search-results-container');
+                searchResultsContainer.classList.add('active');
+            } catch (error) {
+                console.error('Canlı arama hatası:', error);
+            }
+        }
+
+
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const settingsIcon = document.querySelector('.settings-icon');
+            const settingsMenu = document.querySelector('.settings-menu');
+            const themeSwitchButton = document.querySelector('.theme-switch');
+    
+            settingsIcon.addEventListener('click', function () {
+                settingsMenu.classList.toggle('active');
+            });
+    
+            themeSwitchButton.addEventListener('click', function () {
+                document.body.classList.toggle('light-theme');
+    
+                const isLightTheme = document.body.classList.contains('light-theme');
+    
+                // Arka plan rengini güncelle
+                if (isLightTheme) {
+                    document.body.style.backgroundColor = '#fff';
+                    themeSwitchButton.textContent = 'Koyu Tema';
+                } else {
+                    document.body.style.backgroundColor = '#000';
+                    themeSwitchButton.textContent = 'Açık Tema';
+                }
+            });
+        });
+    </script>
+    <script>
+        const tweets = await tweetModel.find().populate({
+            path: 'comments',
+            populate: {
+                path: 'author',
+                model: 'UserModel' // Yazar bilgisinin alınacağı modelin adını buraya yazın
+            }
+        });
+        
+    </script>
+
+</body>
