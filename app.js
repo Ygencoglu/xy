@@ -18,7 +18,7 @@ const server = http.createServer(app);
 const io = socketIo(server);
 
 // Redis istemcisini oluşturun ve bağlantıyı yapılandırın
-const redisClient = new Redis();
+const redisClient = new Redis(process.env.REDIS_URL);
 
 // Tweetleri önbelleğe alacak bir fonksiyon tanımlayın
 async function cacheTweets() {
@@ -44,8 +44,7 @@ cacheTweets();
 
 
 const amqp = require('amqplib');
-
-const rabbitMQUrl = 'amqp://localhost';
+const rabbitMQUrl = process.env.RABBITMQ_URL;
 
 // RabbitMQ ile bağlantıyı oluşturmak için kullanılacak global değişken
 let channel;
@@ -83,8 +82,9 @@ const connectToRabbitMQ = async () => {
     }
 };
 
-
 connectToRabbitMQ();
+
+
 
 io.on('connection', socket => {
     socket.on('message', async data => {
@@ -353,10 +353,7 @@ app.post('/tweet/:tweetId/comment', async (req, res) => {
 });
 
 
-
-
-const PORT = 3000;
-
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-    console.log(`Sunucu ${PORT} portunda çalışıyor...`);
+    console.log(`Server ${PORT} portunda başlatıldı.`);
 });

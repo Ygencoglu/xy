@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
-
-mongoose.connect('mongodb://localhost:27017/xy', {
-})
-.then(() => console.log('MongoDB bağlantısı başarılı'))
-.catch(err => console.error('MongoDB bağlantı hatası:', err));
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB bağlantı hatası:'));
+db.once('open', () => {
+    console.log('MongoDB ile bağlantı başarılı.');
+});
 
 const userSchema = new mongoose.Schema({
     username: { type: String, unique: true },
